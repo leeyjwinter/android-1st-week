@@ -51,7 +51,6 @@ class MyAdapter(val datas: MutableList<String>) :
         binding.itemData.text = datas[position]
 
         holder.itemView.setOnClickListener {
-            Log.d("$position", "$position")
             Toast.makeText(holder.itemView.context," ${datas[position]}",Toast.LENGTH_SHORT).show()
         }
 //        holder.itemView.setOnClickListener {
