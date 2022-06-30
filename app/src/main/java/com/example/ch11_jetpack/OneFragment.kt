@@ -31,7 +31,7 @@ import org.json.JSONTokener
 class MyViewHolder(val binding: ItemRecyclerviewBinding) :
     RecyclerView.ViewHolder(binding.root)
 // 항목 구성자. 어댑터
-class MyAdapter(val datas: MutableList<String>) :
+class MyAdapter(val datas: MutableList<String>, val numdata:MutableList<String>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     // 항목 개수를 판단하기 위해 자동 호출
     override fun getItemCount(): Int {
@@ -49,9 +49,10 @@ class MyAdapter(val datas: MutableList<String>) :
         val binding = (holder as MyViewHolder).binding
         // 뷰에 데이터 출력
         binding.itemData.text = datas[position]
+        binding.itemNumber.text=numdata[position]
 
         holder.itemView.setOnClickListener {
-            Toast.makeText(holder.itemView.context," ${datas[position]}",Toast.LENGTH_SHORT).show()
+            Toast.makeText(holder.itemView.context," ${datas[position]} : ${numdata[position]}",Toast.LENGTH_SHORT).show()
         }
 //        holder.itemView.setOnClickListener {
 //            itemClickListener.onClick(it,position) }
@@ -121,6 +122,7 @@ class OneFragment : Fragment(){
         val binding = FragmentOneBinding.inflate(inflater, container, false)
         // 리사이클러 뷰를 위한 가상 데이터 준비
         val datas = mutableListOf<String>()
+        val numdata = mutableListOf<String>()
 //        for(i in 1..9){
 //            datas.add("Item $i")
 //
@@ -135,13 +137,15 @@ class OneFragment : Fragment(){
             val obj = jArray.getJSONObject(i)
             val name = obj.getString("name")
             val number = obj.getString("number")
-            datas.add(" $name : $number")
+            datas.add(" $name")
+            numdata.add(" $number")
+
         }
 
         // 리사이클러 뷰에 LayoutManager, Adapter, ItemDecoration 적용
         val layoutManager = LinearLayoutManager(activity)
         binding.recyclerView.layoutManager=layoutManager
-        val adapter= MyAdapter(datas)
+        val adapter= MyAdapter(datas,numdata)
         binding.recyclerView.adapter=adapter
         binding.recyclerView.addItemDecoration(MyDecoration(activity as Context))
         return binding.root
