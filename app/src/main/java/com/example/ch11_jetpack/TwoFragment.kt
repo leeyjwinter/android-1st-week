@@ -8,19 +8,17 @@ import android.database.Cursor
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.DisplayMetrics
 import android.util.Log
+import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.BaseAdapter
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import com.example.ch11_jetpack.databinding.FragmentTwoBinding
 import kotlinx.android.synthetic.main.fragment_two.*
 
@@ -147,8 +145,11 @@ class TwoFragment : Fragment() {
             var bitmap = BitmapFactory.decodeFile(path)
             iv.setImageBitmap(bitmap)
             iv.setScaleType(ImageView.ScaleType.CENTER_CROP)
-            val dplen = ConvertDPtoPX(context, 130)
-            iv.layoutParams = AbsListView.LayoutParams(dplen, dplen) // 300 by 300 image로 보여줌??
+            //val dplen = ConvertDPtoPX(context, 130)
+
+            val wd = (resources.displayMetrics.widthPixels * 0.32).toInt()
+
+            iv.layoutParams = AbsListView.LayoutParams(wd, wd) // 300 by 300 image로 보여줌??
             return iv;
         }
 
