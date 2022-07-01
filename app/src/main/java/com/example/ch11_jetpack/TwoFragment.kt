@@ -5,12 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Display
+import android.util.LruCache
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,10 +30,29 @@ class TwoFragment : Fragment() {
     private var _binding: FragmentTwoBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var memoryCache: LruCache<String, Bitmap>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
+        //using cache/////////////////////////////
+        val maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()
+        val cacheSize = maxMemory / 8
+        memoryCache = object : LruCache<String, Bitmap>(cacheSize) {
+
+            override fun sizeOf(key: String, bitmap: Bitmap): Int {
+                // The cache size will be measured in kilobytes rather than
+                // number of items.
+                return bitmap.byteCount / 1024
+            }
+        }
+        //////////////////////////////
+
+
+        //doing binding
         // Inflate the layout for this fragment
         _binding = FragmentTwoBinding.inflate(inflater, container, false)
 
@@ -119,13 +138,15 @@ class TwoFragment : Fragment() {
         }
     }
 
+
+
     inner class ImageAdapter: BaseAdapter { // BaseAdapter, alt+enter
         lateinit var context:Context
         constructor(context: Context){
             this.context = context
         }
         override fun getCount(): Int { // how many images?
-            Log.d("태그", "확인"+rs.count)
+            //Log.d("태그", "확인"+rs.count)
             return rs.count
         }
 
@@ -142,8 +163,27 @@ class TwoFragment : Fragment() {
             var iv = ImageView(context) //iv: imageview
             rs.moveToPosition(p0)
             var path = rs.getString(0) // getstring: name of image
-            var bitmap = BitmapFactory.decodeFile(path)
-            iv.setImageBitmap(bitmap)
+
+
+            // 이미지를 caching으로 로딩하기
+            var bitmap = getBitmapFromMemCache(path) // cache에 bitmap이 있는가?
+            if(bitmap != null){ // 있으면
+                //Log.d("존재", "O")
+                iv.setImageBitmap(bitmap) // 이미 있는 bitmap 로딩
+            }
+            else{
+                //Log.d("없음", "1")
+                var decd = BitmapFactory.decodeFile(path) // decoding이 가장 오래걸림!!
+                decd = Bitmap.createScaledBitmap(decd, 150, 150, false) // resize해서 캐시에 넣기
+                iv.setImageBitmap(decd) // imageview에 집어넣기 (중요)
+                addBitmapToMemoryCache(path, decd) // 캐시에 넣기
+            }
+            ///// 캐싱 전 코드/////////////////
+            //var bitmap = BitmapFactory.decodeFile(path)
+            //bitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, false)
+            //iv.setImageBitmap(bitmap)
+            ////////////////////////////////
+
             iv.setScaleType(ImageView.ScaleType.CENTER_CROP)
             //val dplen = ConvertDPtoPX(context, 130)
 
@@ -158,5 +198,25 @@ class TwoFragment : Fragment() {
             return Math.round(dp.toFloat() * density)
         }
 
+
+        //cache helper methods
+        fun addBitmapToMemoryCache(key: String?, bitmap: Bitmap?) {
+            if (getBitmapFromMemCache(key) == null) {
+                memoryCache.put(key, bitmap)
+            }
+        }
+
+        fun getBitmapFromMemCache(key: String?): Bitmap? {
+            return memoryCache.get(key)
+        }
+        ////////////////
+
+
+
     }
+
+
+
 }
+
+
