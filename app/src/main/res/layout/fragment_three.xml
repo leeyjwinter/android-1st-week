@@ -19,23 +19,12 @@
         tools:layout_editor_absoluteX="0dp">
 
         <Button
-            android:id="@+id/startTime"
+            android:id="@+id/commuteTimeButton"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:background="@drawable/round"
             android:backgroundTint="#EEEEEE"
             android:text="출근"
-            android:textColor="#000000"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/leaveTime"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:background="@drawable/round"
-            android:backgroundTint="#EEEEEE"
-            android:text="퇴근"
             android:textColor="#000000"
             android:textStyle="bold" />
 
@@ -120,7 +109,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/round"
             android:backgroundTint="@color/black"
-            android:text="Start"
+            android:text="시작"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
 
@@ -128,11 +117,23 @@
             android:id="@+id/stopButton"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
+            android:layout_marginLeft="20dp"
             android:background="@drawable/round"
             android:backgroundTint="@color/black"
             android:enabled="false"
-            android:text="Stop"
+            android:text="중지"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/submitLeaveButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/round"
+            android:backgroundTint="@color/black"
+            android:enabled="false"
+            android:text="퇴근 및 제출"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
 
