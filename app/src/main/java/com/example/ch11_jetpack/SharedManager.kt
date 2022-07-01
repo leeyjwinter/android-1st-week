@@ -10,8 +10,8 @@ class SharedManager(context: Context) {
     private val prefs: SharedPreferences = PreferenceHelper.defaultPrefs(context)
 
     fun saveCurrentUser(user: User) {
-        //prefs["name"] = user.name
-        prefs["age"] = user.age
+        prefs["datedb"] = user.datedb
+        //prefs["age"] = user.age
         //prefs["email"] = user.email
         //prefs["password"] = user.password
         //prefs["isMarried"] = user.isMarried
@@ -19,8 +19,8 @@ class SharedManager(context: Context) {
 
     fun getCurrentUser(): User {
         return User().apply {
-            //name = prefs["name", ""]
-            age = prefs["age", 0]
+            datedb = prefs["datedb", ""]
+            //age = prefs["age", 0]
             //email = prefs["email", ""]
             //password = prefs["password", ""]
             //isMarried = prefs["isMarried", false]

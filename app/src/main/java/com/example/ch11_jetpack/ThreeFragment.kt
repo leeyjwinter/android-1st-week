@@ -12,6 +12,10 @@ import android.widget.Chronometer.OnChronometerTickListener
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.ch11_jetpack.databinding.FragmentThreeBinding
+import java.time.LocalDate
+import java.time.Duration
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 
 class ThreeFragment : Fragment() {
@@ -40,9 +44,32 @@ class ThreeFragment : Fragment() {
         _binding = FragmentThreeBinding.inflate(inflater, container, false)
 
 
-        val currentUser = sharedManager.getCurrentUser() // current user 받아오기
-        Log.d("시간", "time"+currentUser.age)
-        pauseTime = (currentUser.age?.toLong() ?: 0) // 받아서 있으면 빼고, 없으면 0
+        //오늘 날짜 시간 가져오기
+        var now = LocalDate.now()
+
+        // base 날짜인 2022-06-20 설정하기
+        val strdate = "2022-06-25"
+        val basedate = LocalDate.parse(strdate, DateTimeFormatter.ISO_DATE) // localdate형식으로 변환
+        //Log.d("오늘 날짜", "go"+ ChronoUnit.DAYS.between( basedate , now ))
+        //Log.d("날짜", "00000000".repeat(1000))
+        val idx = ChronoUnit.DAYS.between( basedate , now ).toInt() // idx: 오늘 날짜 기준 index
+
+        val curRentUser = sharedManager.getCurrentUser() // current user 받아오기
+        // 아직 한 번도 User가 안 생겼을 때 초기화하기
+        if(curRentUser.datedb == ""){
+            val currentUser = User().apply {
+                //datedb = "00000000".repeat(1000)
+                //임시로 만든 0625~0630 데이터
+                datedb = "000152410001234100153412004512340012333300011111" + "00000000".repeat(994)
+            }
+            sharedManager.saveCurrentUser(currentUser)
+        }
+        val currentUser = sharedManager.getCurrentUser()
+
+        var fulldata = currentUser.datedb // 전체 데이터 가지고 있기(String으로)
+        //Log.d("시간", "time"+currentUser.datedb)
+        //Log.d("서브스트링", currentUser.datedb?.substring(idx*8, idx*8+8) ?: "x")
+        pauseTime = (currentUser.datedb?.substring(idx*8, idx*8+8)?.toLong() ?: 0) // 받아서 있으면 빼고, 없으면 0
 
         ///////////////
 
@@ -52,7 +79,18 @@ class ThreeFragment : Fragment() {
             val time = SystemClock.elapsedRealtime() - chronometer.base
             // 시간 저장
             val currentUser = User().apply {
-                age = time.toInt()
+                val savetimeString = time.toInt().toString().padStart(8, '0')
+                Log.d("0625", "time"+fulldata!!.substring((idx-6)*8, (idx-5)*8))
+                Log.d("0626", "time"+fulldata!!.substring((idx-5)*8, (idx-4)*8))
+                Log.d("0627", "time"+fulldata!!.substring((idx-4)*8, (idx-3)*8))
+                Log.d("0628", "time"+fulldata!!.substring((idx-3)*8, (idx-2)*8))
+                Log.d("0629", "time"+fulldata!!.substring((idx-2)*8, (idx-1)*8))
+                Log.d("0630", "time"+fulldata!!.substring((idx-1)*8, (idx-0)*8))
+                Log.d("0701", "time"+fulldata!!.substring((idx-0)*8, (idx+1)*8))
+
+
+                datedb = fulldata!!.substring(0, idx*8) + savetimeString + fulldata!!.substring(idx*8+8, 1000*8) // 원하는 위치에 데이터 저장
+                fulldata = datedb
             }
             sharedManager.saveCurrentUser(currentUser)
             //
