@@ -174,7 +174,7 @@ class TwoFragment : Fragment() {
             else{
                 //Log.d("없음", "1")
                 var decd = BitmapFactory.decodeFile(path) // decoding이 가장 오래걸림!!
-                decd = Bitmap.createScaledBitmap(decd, 150, 150, false) // resize해서 캐시에 넣기
+                decd = Bitmap.createScaledBitmap(decd, 300, 300, false) // resize해서 캐시에 넣기
                 iv.setImageBitmap(decd) // imageview에 집어넣기 (중요)
                 addBitmapToMemoryCache(path, decd) // 캐시에 넣기
             }
