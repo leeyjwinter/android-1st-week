@@ -3,10 +3,12 @@ package com.example.ch11_jetpack
 
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Chronometer.OnChronometerTickListener
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.ch11_jetpack.databinding.FragmentThreeBinding
 
@@ -40,21 +42,29 @@ class ThreeFragment : Fragment() {
 
 
         binding.startButton.setOnClickListener{
-            binding.chronometer.base = SystemClock.elapsedRealtime() + pauseTime
+            binding.chronometer.base = SystemClock.elapsedRealtime() - pauseTime
             binding.chronometer.start()
 
             binding.stopButton.isEnabled = true
 //            binding.resetButton.isEnabled = true
             binding.startButton.isEnabled = false
+            binding.stop.isVisible = false
+            binding.computer.isVisible = true
 
         }
 
         binding.stopButton.setOnClickListener{
-            pauseTime = binding.chronometer.base - SystemClock.elapsedRealtime()
+            pauseTime = SystemClock.elapsedRealtime()-binding.chronometer.base
+//            Log.d("pausetime","${pauseTime}")
+//            Log.d("elapsedrealtime","${SystemClock.elapsedRealtime()}")
+//            Log.d("binding.chronometer.base","${binding.chronometer.base}")
             binding.chronometer.stop()
             binding.stopButton.isEnabled = false
+            binding.startButton.text = "RESUME"
 //            binding.resetButton.isEnabled = true
             binding.startButton.isEnabled = true
+            binding.stop.isVisible = true
+            binding.computer.isVisible = false
 
         }
 

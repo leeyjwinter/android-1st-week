@@ -10,11 +10,35 @@
         android:id="@+id/chronometer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/buttons"
-        android:layout_marginBottom="35dp"
-        android:gravity="center_horizontal"
-        android:format="H:MM:SS"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="275dp"
+        android:layout_marginBottom="277dp"
+        android:gravity="center"
         android:textSize="80dp" />
+
+
+    <ImageView
+        android:id="@+id/computer"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_above="@+id/buttons"
+        android:layout_below="@+id/chronometer"
+        android:layout_marginTop="-382dp"
+        android:layout_marginBottom="198dp"
+        android:src="@drawable/computer"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/stop"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_above="@+id/buttons"
+        android:layout_below="@+id/chronometer"
+        android:layout_marginTop="33dp"
+        android:layout_marginBottom="60dp"
+        android:src="@drawable/stop"
+        android:visibility="invisible" />
 
     <LinearLayout
         android:id="@+id/buttons"
