@@ -7,7 +7,6 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-
     <LinearLayout
         android:id="@+id/commute"
         android:layout_width="match_parent"
@@ -15,51 +14,33 @@
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/chronometer"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintBottom_toTopOf="@id/chronometer">
 
         <Button
             android:id="@+id/commuteTimeButton"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:background="@drawable/round"
             android:backgroundTint="#EEEEEE"
             android:text="출근"
             android:textColor="#000000"
             android:textStyle="bold" />
 
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:timePickerMode="spinner"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintVertical_bias="0.275" />
+
+
     </LinearLayout>
-
-
-
-
-
-<!--    <LinearLayout-->
-<!--        android:id="@+id/leave"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/chronometer"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent" >-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/leaveText"-->
-<!--            android:layout_width="107dp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:gravity="center"-->
-<!--            android:text="퇴근"-->
-<!--            android:textSize="30dp" />-->
-
-<!--        <TimePicker-->
-<!--            android:id="@+id/leaveTimePicker"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="120dp"-->
-<!--            android:timePickerMode="spinner" />-->
-
-
-<!--    </LinearLayout>-->
 
 
     <Chronometer
@@ -91,6 +72,9 @@
         app:layout_constraintBottom_toTopOf="@id/buttons"
         app:layout_constraintTop_toBottomOf="@+id/chronometer"
         tools:layout_editor_absoluteX="0dp" />
+
+
+
 
     <LinearLayout
         android:id="@+id/buttons"
@@ -132,24 +116,29 @@
             android:layout_marginLeft="20dp"
             android:background="@drawable/round"
             android:backgroundTint="@color/black"
-            android:enabled="false"
+            android:enabled="true"
             android:text="퇴근 및 제출"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/submitLeavePic"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/submit_leave"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@id/buttons"
+            app:layout_constraintTop_toBottomOf="@+id/chronometer"
+            tools:layout_editor_absoluteX="0dp" />
 
-        <!--        <Button-->
-        <!--            android:id="@+id/resetButton"-->
-        <!--            android:layout_width="100dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginLeft="25dp"-->
-        <!--            android:background="@drawable/round"-->
-        <!--            android:backgroundTint="@color/black"-->
-        <!--            android:enabled="false"-->
-        <!--            android:text="Reset"-->
-        <!--            android:textColor="#FFFFFF"-->
-        <!--            android:textStyle="bold" />-->
 
+        <TextView
+            android:id="@+id/testTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            tools:layout_editor_absoluteX="69dp"
+            tools:layout_editor_absoluteY="69dp" />
     </LinearLayout>
 
 
