@@ -1,6 +1,7 @@
 package com.example.ch11_jetpack
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.AssetManager
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -15,6 +16,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
@@ -22,16 +26,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ch11_jetpack.databinding.FragmentOneBinding
 import com.example.ch11_jetpack.databinding.ItemRecyclerviewBinding
+import kotlinx.android.synthetic.main.fragment_one.*
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
+
+var datas = mutableListOf<String>()
+var numdata = mutableListOf<String>()
+var genderdata = mutableListOf<String>()
 
 
 // 항목 뷰를 가지는 역할
 class MyViewHolder(val binding: ItemRecyclerviewBinding) :
     RecyclerView.ViewHolder(binding.root)
 // 항목 구성자. 어댑터
-class MyAdapter(val datas: MutableList<String>, val numdata:MutableList<String>) :
+class MyAdapter(val datas: MutableList<String>, val numdata:MutableList<String>,  val genderdata: MutableList<String>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     // 항목 개수를 판단하기 위해 자동 호출
     override fun getItemCount(): Int {
@@ -48,28 +57,54 @@ class MyAdapter(val datas: MutableList<String>, val numdata:MutableList<String>)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as MyViewHolder).binding
         // 뷰에 데이터 출력
-        binding.itemData.text = datas[position]
-        binding.itemNumber.text=numdata[position]
-
-        holder.itemView.setOnClickListener {
-            Toast.makeText(holder.itemView.context," ${datas[position]} : ${numdata[position]}",Toast.LENGTH_SHORT).show()
+        binding.itemData.text = "  ${datas[position]}"
+        binding.itemNumber.text= "  ${numdata[position]}"
+        if (genderdata[position] == "남"){
+            binding.manPicture.visibility = View.VISIBLE
+            binding.womanPicture.visibility = View.GONE
+            binding.schoolPicture.visibility = View.GONE
         }
+
+        else if (genderdata[position] == "여"){
+            binding.manPicture.visibility = View.GONE
+            binding.womanPicture.visibility = View.VISIBLE
+            binding.schoolPicture.visibility = View.GONE
+        }
+
+        else{
+            binding.manPicture.visibility = View.GONE
+            binding.womanPicture.visibility = View.GONE
+            binding.schoolPicture.visibility = View.VISIBLE
+        }
+
 //        holder.itemView.setOnClickListener {
-//            itemClickListener.onClick(it,position) }
-//    }
-//
-//    interface onItemClickListener : AdapterView.OnItemClickListener {
-//        fun onClick(v:View,position: Int)
-//    }
-//
-//    fun setItemClickListener(onItemClickListener: onItemClickListener){
-//        this.itemClickListener = onItemClickListener
-//    }
-//
-//    private lateinit var itemClickListener : AdapterView.OnItemClickListener
+//            Toast.makeText(holder.itemView.context," ${datas[position]} : ${numdata[position]}",Toast.LENGTH_SHORT).show()
+//        }
+
+        holder.binding.DeleteButton.setOnClickListener{
+            Toast.makeText(holder.itemView.context," Deleted ${datas[position]}\n${numdata[position]}",Toast.LENGTH_SHORT).show()
+            datas.removeAt(position)
+            numdata.removeAt(position)
+            genderdata.removeAt(position)
+            notifyDataSetChanged()
+        }
+
+
+        holder.binding.alterButton.setOnClickListener{
+            var x = Intent(holder.binding.alterButton?.context, ModifyNumberActivity::class.java) // intent 생성
+
+            x.putExtra("name",datas[position])
+            x.putExtra("number",numdata[position])
+            x.putExtra("gender",genderdata[position])
+            ContextCompat.startActivity(holder.binding.alterButton.context,x,null)
+
+
+        }
+
+
+
+
     }
-
-
 }
 // 리사이클러 뷰 꾸미기
 class MyDecoration(val context: Context): RecyclerView.ItemDecoration() {
@@ -121,8 +156,7 @@ class OneFragment : Fragment(){
     ): View? {
         val binding = FragmentOneBinding.inflate(inflater, container, false)
         // 리사이클러 뷰를 위한 가상 데이터 준비
-        val datas = mutableListOf<String>()
-        val numdata = mutableListOf<String>()
+
 //        for(i in 1..9){
 //            datas.add("Item $i")
 //
@@ -137,17 +171,27 @@ class OneFragment : Fragment(){
             val obj = jArray.getJSONObject(i)
             val name = obj.getString("name")
             val number = obj.getString("number")
-            datas.add(" $name")
-            numdata.add(" $number")
+            val gender = obj.getString("gender")
+            datas.add("$name")
+            numdata.add("$number")
+            genderdata.add("$gender")
 
         }
 
+
         // 리사이클러 뷰에 LayoutManager, Adapter, ItemDecoration 적용
-        val layoutManager = LinearLayoutManager(activity)
+        var layoutManager = LinearLayoutManager(activity)
         binding.recyclerView.layoutManager=layoutManager
-        val adapter= MyAdapter(datas,numdata)
+        var adapter= MyAdapter(datas,numdata, genderdata)
         binding.recyclerView.adapter=adapter
         binding.recyclerView.addItemDecoration(MyDecoration(activity as Context))
+
+
+
+
+
+
+
         return binding.root
     }
 
@@ -155,4 +199,8 @@ class OneFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
     }
+
+
+
+
 }

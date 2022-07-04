@@ -132,8 +132,8 @@
             android:textStyle="bold" />
 
 
-
     </LinearLayout>
+
 
     <TextView
         android:id="@+id/testTime"

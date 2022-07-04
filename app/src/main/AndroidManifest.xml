@@ -18,14 +18,19 @@
         android:theme="@style/Theme.Ch11_JetPack"
         tools:targetApi="31">
 
+        <activity android:name=".ModifyNumberActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+            android:exported="false"
+        </activity>
         <activity
             android:name=".DisplayImageActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
