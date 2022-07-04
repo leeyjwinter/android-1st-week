@@ -153,11 +153,21 @@
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/barChart"
-        android:layout_width="350dp"
+        android:layout_width="359dp"
         android:layout_height="154dp"
         android:layout_margin="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="-2dp" />
+
+    <TextView
+        android:id="@+id/showDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:text="TextView"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/barChart"
+        app:layout_constraintTop_toTopOf="@+id/commute" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
