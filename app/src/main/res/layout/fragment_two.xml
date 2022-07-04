@@ -21,5 +21,27 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+    </GridView>
+
+    <Button
+        android:id="@+id/refreshButton"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:layout_gravity="right"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
+        android:text="Refresh"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/markButton"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:layout_gravity="left"
+        android:text="Marks"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

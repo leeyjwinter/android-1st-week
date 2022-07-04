@@ -1,14 +1,24 @@
 package com.example.ch11_jetpack
 
 
+import android.Manifest
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Chronometer.OnChronometerTickListener
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.ch11_jetpack.databinding.FragmentThreeBinding
@@ -17,6 +27,8 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import kotlinx.android.synthetic.main.fragment_three.*
+import java.io.File
+import java.io.FileOutputStream
 import java.time.LocalDate
 import java.time.Duration
 import java.time.format.DateTimeFormatter
@@ -32,6 +44,8 @@ class ThreeFragment : Fragment() {
     var time ="" //출근시
     var min ="" //출근분
     var ampm ="" //출근 AM / PM
+
+
 
 
     // base값을 저장된 time 기반으로 수정
@@ -127,7 +141,7 @@ class ThreeFragment : Fragment() {
         var now = LocalDate.now()
 
         // base 날짜인 2022-06-20 설정하기
-        val strdate = "2022-06-26"
+        val strdate = "2022-06-28"
         val basedate = LocalDate.parse(strdate, DateTimeFormatter.ISO_DATE) // localdate형식으로 변환
         //Log.d("오늘 날짜", "go"+ ChronoUnit.DAYS.between( basedate , now ))
         //Log.d("날짜", "00000000".repeat(1000))
@@ -253,6 +267,7 @@ class ThreeFragment : Fragment() {
             binding.submitLeaveButton.isEnabled = true
             binding.startButton.isEnabled = false
             binding.stop.isVisible = false
+            binding.submitLeavePic.isVisible = false
             binding.computer.isVisible = true
 
         }
@@ -273,11 +288,107 @@ class ThreeFragment : Fragment() {
             binding.startButton.isEnabled = true
             binding.stop.isVisible = true
             binding.computer.isVisible = false
+            binding.submitLeavePic.isVisible = false
 
         }
+
+
+        //////////////////////////image save part
+        val mStorageExternalPermissionRequestCode = 131
+
+        fun imageExternalSave(context: Context, bitmap: Bitmap, path: String): Boolean {
+            val state = Environment.getExternalStorageState()
+            if (Environment.MEDIA_MOUNTED == state) {
+
+                val rootPath =
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                        .toString()
+                val dirName = "/" + path
+                val fileName = System.currentTimeMillis().toString() + ".png"
+                val savePath = File(rootPath + dirName)
+                println(dirName)
+                savePath.mkdirs()
+
+
+                val file = File(savePath, fileName)
+                if (file.exists()) file.delete()
+
+                try {
+                    val out = FileOutputStream(file)
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+                    out.flush()
+                    out.close()
+
+                    //갤러리 갱신
+                    context.sendBroadcast(
+                        Intent(
+                            Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                            Uri.parse("file://" + Environment.getExternalStorageDirectory())
+                        )
+                    )
+                    println(Uri.parse("file://" + Environment.getExternalStorageDirectory()))
+
+                    return true
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            return false
+        }
+
+        /*
+        fun checkPermission(activity: Activty, permission: String): Boolean {
+            val permissionChecker =
+                ContextCompat.checkSelfPermission(activity.applicationContext, permission)
+
+            //권한이 없으면 권한 요청
+            if (permissionChecker == PackageManager.PERMISSION_GRANTED) return true
+            ActivityCompat.requestPermissions(activity, arrayOf(permission), mStorageExternalPermissionRequestCode)
+            return false
+        }*/
+
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
         binding.submitLeaveButton.setOnClickListener{
 
+            binding.stop.isVisible = false
+            binding.computer.isVisible = false
+            binding.submitLeavePic.isVisible = true
 
+            //ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+            //ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+
+            //////////saveimagestart///////////////////////
+            val rootView = binding.imageView.rootView
+            rootView.isDrawingCacheEnabled = true
+            rootView.buildDrawingCache(true)
+            val b = Bitmap.createBitmap(rootView.drawingCache)
+            rootView.isDrawingCacheEnabled = false
+            //imageView.setImageBitmap(b)
+
+            if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){// permission check
+                // if not granted
+                // we need to request permission!
+                requestPermissions(Array(1){ Manifest.permission.READ_EXTERNAL_STORAGE}, 121)
+            }
+            if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){// permission check
+                // if not granted
+                // we need to request permission!
+                requestPermissions(Array(1){ Manifest.permission.WRITE_EXTERNAL_STORAGE}, 131)
+            }
+
+            //그림 저장
+            if(!imageExternalSave(requireActivity().applicationContext, b, requireActivity().applicationContext.getString(R.string.app_name))){
+                Toast.makeText(requireActivity().applicationContext, "그림 저장을 실패하였습니다", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            Toast.makeText(activity, "그림이 갤러리에 저장되었습니다", Toast.LENGTH_SHORT).show()
+
+            ////////////////saveimageend/////////////////////////
 
             var now = LocalDate.now()
             var cidx = ChronoUnit.DAYS.between( basedate , now ).toInt() // 날짜를 계속 갱신!
@@ -285,15 +396,23 @@ class ThreeFragment : Fragment() {
                 idx = cidx
             }
 
+            // 스크린샷 찍기
+
+
+
             pauseTime = 0L
             binding.chronometer.base = SystemClock.elapsedRealtime()
             binding.chronometer.stop()
             binding.chronometer.setText("00:00:00")
+            binding.startButton.text = "시작"
             binding.stopButton.isEnabled = false
             binding.submitLeaveButton.isEnabled = false
             binding.startButton.isEnabled = true
 
+
+
         }
+
 
 
         // OnclickTime 호출
