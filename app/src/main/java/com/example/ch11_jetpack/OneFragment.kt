@@ -98,7 +98,6 @@ class MyAdapter(val datas: MutableList<String>, val numdata:MutableList<String>,
             x.putExtra("gender",genderdata[position])
             ContextCompat.startActivity(holder.binding.alterButton.context,x,null)
 
-
         }
 
 

@@ -2,6 +2,7 @@ package com.example.ch11_jetpack
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -55,6 +56,12 @@ class ModifyNumberActivity : AppCompatActivity() {
             binding.grayMan.visibility = View.GONE
             binding.grayWoman.visibility = View.GONE
             binding.graySchool.visibility = View.VISIBLE
+        }
+
+        binding.callButton.setOnClickListener{
+            val dialIntent = Intent(Intent.ACTION_DIAL)
+            dialIntent.data = Uri.parse("tel: " + number)
+            startActivity(dialIntent)
         }
 
 //        binding.saveButton.setOnClickListener{

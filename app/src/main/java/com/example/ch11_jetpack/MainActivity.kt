@@ -1,6 +1,9 @@
 package com.example.ch11_jetpack
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
@@ -56,14 +59,20 @@ class MainActivity : AppCompatActivity() {
 
             val thirdFragment = ThreeFragment()
 
-            Log.d("hello","${it.title}")
-            if (it.title == "PhoneBook"){
-                val fragmentManager : FragmentManager = supportFragmentManager
-                val transaction : FragmentTransaction = fragmentManager.beginTransaction()
-                val secondFragment = TwoFragment()
-                transaction.replace(R.id.secondFragmentView,secondFragment)
-                transaction.addToBackStack(null)
-                transaction.commit()
+//            Log.d("hello","${it.title}")
+            if (it.title == "MADCAMP"){
+                var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://madcamp.io/"))
+                startActivity(intent)
+            }
+
+            else if(it.title == "PhoneCall"){
+                val intentDial = Intent(Intent.ACTION_DIAL)
+                startActivity(intentDial)
+            }
+
+            else if(it.title == "Camera"){
+                val intent:Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(intent,101)
             }
             true }
 

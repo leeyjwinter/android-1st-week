@@ -5,20 +5,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/first_menu"
-            android:title="PhoneBook"
+            android:title="PhoneCall"
             android:icon="@android:drawable/stat_sys_phone_call_forward"
             app:showAsAction="ifRoom|withText"/>
 
         <item
             android:id="@+id/second_menu"
-            android:title="Gallery"
+            android:title="Camera"
             android:icon="@android:drawable/ic_menu_camera"
             app:showAsAction="ifRoom|withText"/>
 
         <item
             android:id="@+id/third_menu"
-            android:title="Mollip"
-            android:icon="@android:drawable/ic_menu_my_calendar"
+            android:title="MADCAMP"
+            android:icon="@android:drawable/ic_dialog_info"
             app:showAsAction="ifRoom|withText"/>
 
 

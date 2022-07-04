@@ -7,13 +7,14 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.util.LruCache
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
 import android.widget.AbsListView
 import android.widget.BaseAdapter
 import android.widget.ImageView
@@ -21,10 +22,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.ch11_jetpack.databinding.FragmentTwoBinding
 import kotlinx.android.synthetic.main.fragment_two.*
+import java.io.File
+import java.net.URI
+import java.util.logging.Level.parse
+import kotlin.time.Duration.Companion.parse
 
 
 class TwoFragment : Fragment() {
-
+    var is_mark=0
     lateinit var rs: Cursor // lately initialized
 
     private var _binding: FragmentTwoBinding? = null
@@ -62,8 +67,29 @@ class TwoFragment : Fragment() {
         }
 
         listImages()
+
+        binding.markButton.setOnClickListener{
+            if(is_mark==0){
+                is_mark=1
+                listImages()
+                binding.markButton.text = "전체사진"
+            }
+            else{
+                is_mark=0
+                listImages()
+                binding.markButton.text = "출근부"
+            }
+
+        }
+
+        binding.refreshButton.setOnClickListener{
+            listImages()
+        }
+
         return binding.root
     }
+
+
 
     override fun onDestroyView() {
         _binding = null
@@ -91,12 +117,39 @@ class TwoFragment : Fragment() {
     private fun listImages(){
         // image name colunm만 원함
         var cols = listOf<String>(MediaStore.Images.Thumbnails.DATA).toTypedArray()
-        // internal을 원하면, INTERNAL_CONTENT_URI를 선택하면 됨
-        rs = requireActivity().contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            cols, null, null, null)!!
+
+
+        //val photoUri: Uri = Uri.withAppendedPath(
+        //    ,
+        //    "/storage/emulated/0/Pictures/1st app"
+        //)
+        //val photoUri = Uri.fromFile(File("/storage/emulated/0/Pictures/1st app"))
+
+        val selection = "${MediaStore.MediaColumns.RELATIVE_PATH} LIKE ?"
+        val selectionArgs = arrayOf("Pictures/1stapp%") // Test was my folder name
+
+        //val selection = MediaStore.Files.FileColumns.MIME_TYPE + "=?";
+        //val selectionArgs = arrayOf(MimeTypeMap.getSingleton().getMimeTypeFromExtension("png"))
+
+        //rs = requireActivity().contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+        //    cols, null, null, null)!!
+        println(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        if(is_mark==0){
+            rs = requireActivity().contentResolver.query(Uri.parse("content://media/external/images/media"),
+                cols, null, null, null)!!
+        }
+        else{
+            rs = requireActivity().contentResolver.query(Uri.parse("content://media/external/images/media"),
+                cols, selection, selectionArgs, null)!!
+        }
+
        // if(rs?.moveToNext()!!){ // ?: null checking
        //     Toast.makeText(requireActivity().applicationContext, rs?.getString(0), Toast.LENGTH_LONG).show()
        // }
+
+
+
+
 
 
         var gridview = binding.gridview
