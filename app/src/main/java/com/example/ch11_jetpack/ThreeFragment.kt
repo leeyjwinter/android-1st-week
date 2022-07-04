@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -17,20 +16,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Chronometer.OnChronometerTickListener
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.ch11_jetpack.databinding.FragmentThreeBinding
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import kotlinx.android.synthetic.main.fragment_three.*
 import java.io.File
 import java.io.FileOutputStream
 import java.time.LocalDate
-import java.time.Duration
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
@@ -53,6 +52,24 @@ class ThreeFragment : Fragment() {
     ////SharedPreferences
     private val sharedManager: SharedManager by lazy { SharedManager(requireActivity().applicationContext) }
 
+    class ScoreCustomFormatter : ValueFormatter() {
+        override fun getFormattedValue(value: Float): String {
+
+            val my_time = value.toInt()
+            val h = ((my_time / 3600).toInt())
+            val m = ((my_time - h * 3600).toInt() / 60)
+            val s = ((my_time - h * 3600 - m * 60).toInt() / 1)
+
+            val hh = h.toString().padStart(2, '0')
+            val mm = m.toString().padStart(2, '0')
+            val ss = s.toString().padStart(2, '0')
+            return "$hh" + ":" + "$mm" + ":" + "$ss" + ""
+
+            //val score = value.toString().split(".")
+            //return score[0]+"점"
+        }
+    }
+
     fun drawsimpleGraph(d6:Int, d5:Int, d4:Int, d3:Int, d2:Int, d1:Int, d0:Int){ // 그래프를 그려주는 함수
     //fun drawsimpleGraph(){ // 그래프를 그려주는 함수
 
@@ -61,6 +78,8 @@ class ThreeFragment : Fragment() {
         //for(i: Int in 0..6){
         //    entries.add(BarEntry(i.toFloat(), time_table[i].toFloat()))
         //}
+
+
         entries.add(BarEntry(1f, d6.toFloat()))
         entries.add(BarEntry(2f, d5.toFloat()))
         entries.add(BarEntry(3f, d4.toFloat()))
@@ -69,10 +88,14 @@ class ThreeFragment : Fragment() {
         entries.add(BarEntry(6f, d1.toFloat()))
         entries.add(BarEntry(7f, d0.toFloat()))
 
+
         val barDataSet = BarDataSet(entries, "")
         barDataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
 
-        val datas = BarData(barDataSet)
+        val datas = BarData(barDataSet).apply{
+            setValueTextSize(10f)
+        }
+        datas.setValueFormatter(ScoreCustomFormatter())
         binding.barChart.data = datas
 
 
@@ -83,6 +106,9 @@ class ThreeFragment : Fragment() {
         binding.barChart.xAxis.setDrawAxisLine(false)
         // 축 레이블 숨기기
         binding.barChart.xAxis.setDrawLabels(false)
+        //binding.barChart.valueTextSize = 10.0f
+         //binding.barChart.axisRight.textSize = 30f
+        //binding.barChart.getAxis.setTextSize(50f)
         //binding.barChart.getAxis.setDrawLabels(false)
 
         //remove right y-axis
@@ -94,6 +120,10 @@ class ThreeFragment : Fragment() {
 
         //remove description label
         binding.barChart.description.isEnabled = false
+
+        //val yAxis: YAxis = binding.barChart.value // get the left or right axis
+
+        //yAxis.valueFormatter =
 
 
         //add animation
@@ -181,13 +211,25 @@ class ThreeFragment : Fragment() {
             return "$hh $mm $ss "
         }
 
+        fun StringToDate(i: Int): String{
+            var rdate = LocalDate.now()
+            var ret = rdate.plusDays(i.toLong())
+            //return ret.toString()
+            return ret.monthValue.toString().padStart(2, '0') + "/" + ret.dayOfMonth.toString().padStart(2, '0')
+        }
+
+
         fun viewWeekTime(w_idx: Int){ // 한 주 시간을 다 보여주기
             var weekTime = ""
+            var date_week = ""
+
             for(i: Int in -6..0) {
                 weekTime += "i is $i: "
                 weekTime += StringToTime(fulldata!!.substring((w_idx+i)*8, (w_idx+i+1)*8))
                 weekTime += "\n"
+                date_week += StringToDate(i) + "  "
             }
+            binding.showDate.setText(date_week)
 
             // draw 진행해보기! (그래프 그리기)
             var time_table = arrayOf(0, 0, 0, 0, 0, 0, 0)
