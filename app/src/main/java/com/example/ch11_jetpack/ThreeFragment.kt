@@ -215,6 +215,7 @@ class ThreeFragment : Fragment() {
             pauseTime = 0L
             binding.chronometer.base = SystemClock.elapsedRealtime()
             binding.chronometer.stop()
+            binding.chronometer.setText("00:00:00")
             binding.stopButton.isEnabled = false
             binding.submitLeaveButton.isEnabled = false
             binding.startButton.isEnabled = true

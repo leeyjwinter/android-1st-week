@@ -73,6 +73,16 @@
         app:layout_constraintTop_toBottomOf="@+id/chronometer"
         tools:layout_editor_absoluteX="0dp" />
 
+    <ImageView
+        android:id="@+id/submitLeavePic"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@drawable/submit_leave"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/buttons"
+        app:layout_constraintTop_toBottomOf="@+id/chronometer"
+        tools:layout_editor_absoluteX="0dp" />
+
 
 
 
@@ -121,25 +131,16 @@
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/submitLeavePic"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:src="@drawable/submit_leave"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@id/buttons"
-            app:layout_constraintTop_toBottomOf="@+id/chronometer"
-            tools:layout_editor_absoluteX="0dp" />
 
 
-        <TextView
-            android:id="@+id/testTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            tools:layout_editor_absoluteX="69dp"
-            tools:layout_editor_absoluteY="69dp" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/testTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="69dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
