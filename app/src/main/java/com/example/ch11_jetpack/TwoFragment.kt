@@ -118,10 +118,10 @@ class TwoFragment : Fragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) { // finish()하고 오면, resultCode로 받아올 수 있음
         // next or prev 버튼 눌렀을 때 다음 사진 보여주게 하는 함수
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 100) {
+        if (requestCode == 100) { // 내가 어떤 activity를 종료했는가
             if(resultCode==100){
                 return
             }

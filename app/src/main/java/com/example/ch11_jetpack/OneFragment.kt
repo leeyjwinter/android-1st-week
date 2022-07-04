@@ -18,6 +18,7 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
@@ -33,6 +34,7 @@ import org.json.JSONTokener
 var datas = mutableListOf<String>()
 var numdata = mutableListOf<String>()
 var genderdata = mutableListOf<String>()
+
 
 // 항목 뷰를 가지는 역할
 class MyViewHolder(val binding: ItemRecyclerviewBinding) :
@@ -55,8 +57,8 @@ class MyAdapter(val datas: MutableList<String>, val numdata:MutableList<String>,
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as MyViewHolder).binding
         // 뷰에 데이터 출력
-        binding.itemData.text = datas[position]
-        binding.itemNumber.text=numdata[position]
+        binding.itemData.text = "  ${datas[position]}"
+        binding.itemNumber.text= "  ${numdata[position]}"
         if (genderdata[position] == "남"){
             binding.manPicture.visibility = View.VISIBLE
             binding.womanPicture.visibility = View.GONE
@@ -86,6 +88,19 @@ class MyAdapter(val datas: MutableList<String>, val numdata:MutableList<String>,
             genderdata.removeAt(position)
             notifyDataSetChanged()
         }
+
+
+        holder.binding.alterButton.setOnClickListener{
+            var x = Intent(holder.binding.alterButton?.context, ModifyNumberActivity::class.java) // intent 생성
+
+            x.putExtra("name",datas[position])
+            x.putExtra("number",numdata[position])
+            x.putExtra("gender",genderdata[position])
+            ContextCompat.startActivity(holder.binding.alterButton.context,x,null)
+
+
+        }
+
 
 
 
@@ -157,8 +172,8 @@ class OneFragment : Fragment(){
             val name = obj.getString("name")
             val number = obj.getString("number")
             val gender = obj.getString("gender")
-            datas.add("  $name")
-            numdata.add("  $number")
+            datas.add("$name")
+            numdata.add("$number")
             genderdata.add("$gender")
 
         }

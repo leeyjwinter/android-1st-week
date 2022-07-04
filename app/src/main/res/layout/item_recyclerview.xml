@@ -13,15 +13,37 @@
 <!--    android:layout_margin="8dp">-->
 
     <ImageView
+        android:id="@+id/man_picture"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="#00000000"
         android:backgroundTint="#00000000"
-        android:src="@drawable/blackman" />
+        android:src="@drawable/man" />
+
+    <ImageView
+        android:id="@+id/woman_picture"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="#00000000"
+        android:backgroundTint="#00000000"
+        android:src="@drawable/woman"
+        android:visibility="gone"/>
+
+
+    <ImageView
+        android:id="@+id/school_picture"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="#00000000"
+        android:backgroundTint="#00000000"
+        android:src="@drawable/school"
+        android:visibility="gone"/>
+
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="60dp"
+        android:layout_weight="0.6"
         android:orientation="vertical">
 
         <TextView
@@ -48,6 +70,35 @@
             android:textSize="12dp"/>
 
     </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/alterDeleteButtons"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_weight="0.4"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/alterButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="수정"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/DeleteButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="삭제"
+            android:layout_weight="1"/>
+
+
+    </LinearLayout>
+
+
+
 
 
 
