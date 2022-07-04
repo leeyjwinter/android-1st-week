@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/first_menu"
+            android:title="PhoneBook"
+            android:icon="@android:drawable/stat_sys_phone_call_forward"
+            app:showAsAction="ifRoom|withText"/>
+
+        <item
+            android:id="@+id/second_menu"
+            android:title="Gallery"
+            android:icon="@android:drawable/ic_menu_camera"
+            app:showAsAction="ifRoom|withText"/>
+
+        <item
+            android:id="@+id/third_menu"
+            android:title="Mollip"
+            android:icon="@android:drawable/ic_menu_my_calendar"
+            app:showAsAction="ifRoom|withText"/>
+
+
+    </group>
+
+</menu>

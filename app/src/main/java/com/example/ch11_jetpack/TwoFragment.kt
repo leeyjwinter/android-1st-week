@@ -31,7 +31,6 @@ class TwoFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var memoryCache: LruCache<String, Bitmap>
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

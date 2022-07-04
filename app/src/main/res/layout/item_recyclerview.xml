@@ -84,7 +84,7 @@
             android:id="@+id/alterButton"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="수정"
+            android:text="상세"
             android:layout_weight="1"/>
 
         <Button

@@ -1,12 +1,10 @@
 package com.example.ch11_jetpack
 
-import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.os.SystemClock
 import android.view.View
-import com.example.ch11_jetpack.databinding.ActivityMainBinding
+import androidx.appcompat.app.AppCompatActivity
 import com.example.ch11_jetpack.databinding.PhoneModifyBinding
 import kotlinx.android.synthetic.main.activity_display_image.*
 import kotlinx.android.synthetic.main.phone_modify.view.*
@@ -19,6 +17,8 @@ var x = Intent(requireActivity().applicationContext, ModifyNumberActivity::class
             startActivityForResult(x, 100)
  */
 class ModifyNumberActivity : AppCompatActivity() {
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,9 +57,41 @@ class ModifyNumberActivity : AppCompatActivity() {
             binding.graySchool.visibility = View.VISIBLE
         }
 
-        binding.saveButton.setOnClickListener{
+//        binding.saveButton.setOnClickListener{
+//
+//            fun setDataAtFragment(fragment: OneFragment, title:String){
+//                val bundle = Bundle()
+//                bundle.putString("title",title)
+//
+//                fragment.arguments = bundle
+//                setFragment(fragment)
+//            }
+//
+//            fun setFragment(fragment: OneFragment){
+//                val transaction = supportFragmentManager.beginTransaction()
+//                transaction.replace(R.id.saveButton,fragment)
+//            }
 
-        }
+//        val mFragmentManager = supportFragmentManager
+//        val mFragmentTransaction = mFragmentManager.beginTransaction()
+//        val mFragment = OneFragment()
+//
+//        binding.saveButton.setOnClickListener{
+//            val mBundle = Bundle()
+//            mBundle.putString("mText",binding.saveButton.text.toString())
+//            mFragment.arguments = mBundle
+//            mFragmentTransaction.add(R.id.frameLayout,mFragment).commit()
+//        }
+
+//        binding.saveButton.setOnClickListener{
+//            var intent2 = Intent()
+//            intent2.putExtra("value1",200)
+//            intent2.putExtra("value2",300)
+//            setResult(Activity.RESULT_OK,intent2)
+//            finish()
+//        }
+
+
 
 
     }

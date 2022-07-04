@@ -5,15 +5,24 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.ch11_jetpack.databinding.ActivityMainBinding
+import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.phone_modify.*
 
 class MainActivity : AppCompatActivity() {
+
+//    var tran = supportFragmentManager.beginTransaction()
+
     lateinit var toggle: ActionBarDrawerToggle
     // 뷰 페이저 어댑터
     class MyFragmentPagerAdapter(activity: FragmentActivity) :
@@ -31,15 +40,35 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         // ActionBarDrawerToggle 버튼 적용
-        toggle = ActionBarDrawerToggle(this, binding.drawer, R.string.drawer_opened,
-            R.string.drawer_closed)
+        toggle = ActionBarDrawerToggle(
+            this, binding.drawer, R.string.drawer_opened,
+            R.string.drawer_closed
+        )
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toggle.syncState()
 
         // 뷰 페이저에 어댑터 적용
         val adapter = MyFragmentPagerAdapter(this)
         binding.viewpager.adapter = adapter
+
+        binding.mainDrawerView.setNavigationItemSelectedListener {
+            val firstFragment = OneFragment()
+
+            val thirdFragment = ThreeFragment()
+
+            Log.d("hello","${it.title}")
+            if (it.title == "PhoneBook"){
+                val fragmentManager : FragmentManager = supportFragmentManager
+                val transaction : FragmentTransaction = fragmentManager.beginTransaction()
+                val secondFragment = TwoFragment()
+                transaction.replace(R.id.secondFragmentView,secondFragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
+            }
+            true }
+
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_main, menu)
@@ -59,6 +88,7 @@ class MainActivity : AppCompatActivity() {
         })
         return true
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // 이벤트가 토글 버튼에서 발생하면
         if(toggle.onOptionsItemSelected(item)) {
@@ -66,4 +96,11 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+
+
+
+
+
+
 }
