@@ -25,6 +25,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.ch11_jetpack.databinding.FragmentThreeBinding
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -76,6 +77,16 @@ class ThreeFragment : Fragment() {
         }
     }
 
+
+    class DateCustomFormatter : ValueFormatter() {
+        override fun getFormattedValue(value: Float): String {
+            var rdate = LocalDate.now()
+            var ret = rdate.plusDays(value.toLong())
+            //return ret.toString()
+            return ret.monthValue.toString().padStart(2, '0') + "/" + ret.dayOfMonth.toString().padStart(2, '0')
+        }
+    }
+
     fun drawsimpleGraph(d6:Int, d5:Int, d4:Int, d3:Int, d2:Int, d1:Int, d0:Int){ // 그래프를 그려주는 함수
         //fun drawsimpleGraph(){ // 그래프를 그려주는 함수
 
@@ -86,13 +97,13 @@ class ThreeFragment : Fragment() {
         //}
 
 
-        entries.add(BarEntry(1f, d6.toFloat()))
-        entries.add(BarEntry(2f, d5.toFloat()))
-        entries.add(BarEntry(3f, d4.toFloat()))
-        entries.add(BarEntry(4f, d3.toFloat()))
-        entries.add(BarEntry(5f, d2.toFloat()))
-        entries.add(BarEntry(6f, d1.toFloat()))
-        entries.add(BarEntry(7f, d0.toFloat()))
+        entries.add(BarEntry(-6f, d6.toFloat()))
+        entries.add(BarEntry(-5f, d5.toFloat()))
+        entries.add(BarEntry(-4f, d4.toFloat()))
+        entries.add(BarEntry(-3f, d3.toFloat()))
+        entries.add(BarEntry(-2f, d2.toFloat()))
+        entries.add(BarEntry(-1f, d1.toFloat()))
+        entries.add(BarEntry(0f, d0.toFloat()))
 
 
         val barDataSet = BarDataSet(entries, "")
@@ -108,10 +119,17 @@ class ThreeFragment : Fragment() {
         //hide grid lines
         binding.barChart.axisLeft.setDrawGridLines(false)
         binding.barChart.axisLeft.setDrawLabels(false)
+        binding.barChart.axisLeft.setDrawAxisLine(false)
         binding.barChart.xAxis.setDrawGridLines(false)
-        binding.barChart.xAxis.setDrawAxisLine(false)
+        //binding.barChart.xAxis.setDrawAxisLine(false)
         // 축 레이블 숨기기
-        binding.barChart.xAxis.setDrawLabels(false)
+        //binding.barChart.xAxis.setDrawLabels(false)
+        binding.barChart.xAxis.setValueFormatter(DateCustomFormatter())
+        //binding.barChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        binding.barChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        binding.barChart.xAxis.setTextSize(13f)
+        binding.barChart.setExtraBottomOffset(10f)
+
         //binding.barChart.valueTextSize = 10.0f
         //binding.barChart.axisRight.textSize = 30f
         //binding.barChart.getAxis.setTextSize(50f)
@@ -262,7 +280,21 @@ class ThreeFragment : Fragment() {
                 weekTime += "\n"
                 date_week += StringToDate(i) + "  "
             }
-            binding.showDate.setText(date_week)
+
+            //showdate xml
+            /*
+            <TextView
+            android:id="@+id/showDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="-25dp"
+            android:text="TextView"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/barChart"
+            app:layout_constraintTop_toBottomOf="@+id/barChart" />
+            */
+            //binding.showDate.setText(date_week)
 
             // draw 진행해보기! (그래프 그리기)
             var time_table = arrayOf(0, 0, 0, 0, 0, 0, 0)
