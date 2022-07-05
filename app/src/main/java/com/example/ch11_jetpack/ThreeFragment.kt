@@ -6,10 +6,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.Color.red
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.os.SystemClock
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,12 +23,15 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.ch11_jetpack.databinding.FragmentThreeBinding
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
+import kotlinx.android.synthetic.main.fragment_three.*
 import java.io.File
 import java.io.FileOutputStream
 import java.time.LocalDate
@@ -36,6 +43,7 @@ class ThreeFragment : Fragment() {
 
     private var _binding: FragmentThreeBinding? = null
     private val binding get() = _binding!!
+    private lateinit var playASMR: MediaPlayer
     var initTime = 0L
     var pauseTime = 0L // 양수 누적시간
     var time ="" //출근시
@@ -69,7 +77,7 @@ class ThreeFragment : Fragment() {
     }
 
     fun drawsimpleGraph(d6:Int, d5:Int, d4:Int, d3:Int, d2:Int, d1:Int, d0:Int){ // 그래프를 그려주는 함수
-    //fun drawsimpleGraph(){ // 그래프를 그려주는 함수
+        //fun drawsimpleGraph(){ // 그래프를 그려주는 함수
 
         val entries: ArrayList<BarEntry> = ArrayList()
 
@@ -105,7 +113,7 @@ class ThreeFragment : Fragment() {
         // 축 레이블 숨기기
         binding.barChart.xAxis.setDrawLabels(false)
         //binding.barChart.valueTextSize = 10.0f
-         //binding.barChart.axisRight.textSize = 30f
+        //binding.barChart.axisRight.textSize = 30f
         //binding.barChart.getAxis.setTextSize(50f)
         //binding.barChart.getAxis.setDrawLabels(false)
 
@@ -145,6 +153,9 @@ class ThreeFragment : Fragment() {
         // 출근시간을 가져오는 함수
         fun OnClickTime() {
             val timePicker = binding.timePicker
+            //timePicker.hour = 5
+            //timePicker.minute = 30
+
             timePicker.setOnTimeChangedListener { _, hour, minute -> var hour = hour
                 var am_pm = ""
                 // AM_PM decider logic
@@ -167,21 +178,21 @@ class ThreeFragment : Fragment() {
         //버튼 상태 바꾸는 함수
         fun toggleButtons(){
             if (binding.stopButton.isEnabled == false){
-                binding.stopButton.setBackgroundResource(R.drawable.round_gray)
+                binding.stopButton.setBackgroundResource(R.drawable.round_red)
             }
             else{
                 binding.stopButton.setBackgroundResource(R.drawable.round)
             }
 
             if (binding.startButton.isEnabled == false){
-                binding.startButton.setBackgroundResource(R.drawable.round_gray)
+                binding.startButton.setBackgroundResource(R.drawable.round_red)
             }
             else{
                 binding.startButton.setBackgroundResource(R.drawable.round)
             }
 
             if (binding.submitLeaveButton.isEnabled == false){
-                binding.submitLeaveButton.setBackgroundResource(R.drawable.round_gray)
+                binding.submitLeaveButton.setBackgroundResource(R.drawable.round_red)
             }
             else{
                 binding.submitLeaveButton.setBackgroundResource(R.drawable.round)
@@ -315,6 +326,79 @@ class ThreeFragment : Fragment() {
 
         binding.chronometer.setText(t)
 
+
+        ////////////////theme 바꾸기//////////////
+        var ivImage = binding.background
+        var themes = 0
+        var soundon = 0
+
+        Glide
+            .with(this)
+            .load(R.raw.gray_img)
+            .centerCrop()
+            .into(ivImage)
+        ivImage.clipToOutline = true
+
+        fun themechange(){
+            if(themes==0){
+                Glide
+                    .with(this)
+                    .load(R.raw.gray_img)
+                    .centerCrop()
+                    .into(ivImage)
+                ivImage.clipToOutline = true
+            }
+            else if(themes==1){
+                Glide
+                    .with(this)
+                    .load(R.raw.fire_flames)
+                    .centerCrop()
+                    .into(ivImage)
+                ivImage.clipToOutline = true
+            }
+            else if(themes==2){
+                Glide
+                    .with(this)
+                    .load(R.raw.forest)
+                    .centerCrop()
+                    .into(ivImage)
+                ivImage.clipToOutline = true
+            }
+        }
+
+        fun playsound(){
+            if(themes==0){
+                playASMR = MediaPlayer.create(requireActivity().applicationContext, R.raw.asmr0)
+                playASMR.start()
+            }
+            if(themes==1){
+                playASMR = MediaPlayer.create(requireActivity().applicationContext, R.raw.asmr1)
+                playASMR.start()
+            }
+            if(themes==2){
+                playASMR = MediaPlayer.create(requireActivity().applicationContext, R.raw.asmr2)
+                playASMR.start()
+            }
+        }
+
+        binding.themeButton.setOnClickListener {
+            themes = (themes+1)%3
+            themechange()
+            if(soundon==1){
+                playASMR.stop()
+                playsound()
+            }
+        }
+
+        binding.asmrButton.setOnClickListener {
+            soundon = 1-soundon
+            if(soundon==1){
+                playsound()
+            }
+            else{
+                playASMR.pause()
+            }
+        }
 
         binding.startButton.setOnClickListener{
 

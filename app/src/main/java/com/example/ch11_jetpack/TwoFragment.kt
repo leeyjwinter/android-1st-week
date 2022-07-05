@@ -136,11 +136,11 @@ class TwoFragment : Fragment() {
         println(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         if(is_mark==0){
             rs = requireActivity().contentResolver.query(Uri.parse("content://media/external/images/media"),
-                cols, null, null, null)!!
+                cols, null, null, MediaStore.Images.ImageColumns.DATE_ADDED + " DESC")!!
         }
         else{
             rs = requireActivity().contentResolver.query(Uri.parse("content://media/external/images/media"),
-                cols, selection, selectionArgs, null)!!
+                cols, selection, selectionArgs, MediaStore.Images.ImageColumns.DATE_ADDED + " DESC")!!
         }
 
        // if(rs?.moveToNext()!!){ // ?: null checking
@@ -181,6 +181,7 @@ class TwoFragment : Fragment() {
             if(resultCode<0) move_pos = rs.count-1
             else if(resultCode>=rs.count) move_pos=0
             rs.moveToPosition(move_pos)
+
             var path = rs.getString(0) // path 가져옴
             var x = Intent(requireActivity().applicationContext, DisplayImageActivity::class.java)
             x.putExtra("path", path)
