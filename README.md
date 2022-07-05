@@ -104,8 +104,7 @@
 
 ### 2. 탭1 - 연락처
 
-<p align="center">  <img src="https://velog.velcdn.com/images/leeyjwinter/post/4aade709-3567-4815-b131-4b1bdc2a73d2/image.png" width = "1000px"></p>
-
+<p align="center">  <img src="https://user-images.githubusercontent.com/86416273/177321005-4f042cb1-e9bc-4c4f-ac51-c047e9a357de.png"  width="800px"></p>
 
 
 * 성별의 유무, 성별이 있는 경우 남/여 인지에 따라 사용자에게 보여지는 아이콘을 다르게 합니다.
