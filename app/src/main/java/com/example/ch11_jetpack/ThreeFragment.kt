@@ -147,6 +147,9 @@ class ThreeFragment : Fragment() {
         // 출근시간을 가져오는 함수
         fun OnClickTime() {
             val timePicker = binding.timePicker
+            //timePicker.hour = 5
+            //timePicker.minute = 30
+
             timePicker.setOnTimeChangedListener { _, hour, minute -> var hour = hour
                 var am_pm = ""
                 // AM_PM decider logic
