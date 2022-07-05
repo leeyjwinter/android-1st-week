@@ -82,10 +82,8 @@
 ### 1. 초기화면과 Drawer
 
            
-<p align="center">  <img src="https://user-images.githubusercontent.com/86416273/177321005-4f042cb1-e9bc-4c4f-ac51-c047e9a357de.png"  width="800px"></p>
+<p align="center">  <img src="https://user-images.githubusercontent.com/86416273/177321634-d814fd58-8bce-4fa9-9895-9b2939753c27.png"  width="1000px"></p>
 
-
- 
  
 
 * 앱을 처음 실행화면 json 파일에서 불러온 전화번호부 목록이 나타납니다.
@@ -104,7 +102,7 @@
 
 ### 2. 탭1 - 연락처
 
-<p align="center">  <img src="https://user-images.githubusercontent.com/86416273/177321005-4f042cb1-e9bc-4c4f-ac51-c047e9a357de.png"  width="800px"></p>
+<p align="center">  <img src="https://user-images.githubusercontent.com/86416273/177322105-7bc225f1-fea1-4beb-b411-cdfb7151e8a0.png"  width="800px"></p>
 
 
 * 성별의 유무, 성별이 있는 경우 남/여 인지에 따라 사용자에게 보여지는 아이콘을 다르게 합니다.
@@ -127,7 +125,8 @@
 ### 탭2 - 갤러리
 
 
-<p align="center">  <img src="https://user-images.githubusercontent.com/86416273/177320817-58491109-4423-4826-b952-537afb9b828e.png" width = "1000px"></p>
+<p align="center">  <img src="https://user-images.githubusercontent.com/86416273/177321748-4d669299-2556-43d0-8e3e-30d162e2c02e.png" width = "1000px"></p>
+
 
 
 
