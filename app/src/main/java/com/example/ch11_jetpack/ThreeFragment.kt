@@ -20,13 +20,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.ch11_jetpack.databinding.FragmentThreeBinding
-import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
-import kotlinx.android.synthetic.main.fragment_three.*
 import java.io.File
 import java.io.FileOutputStream
 import java.time.LocalDate
@@ -163,6 +161,30 @@ class ThreeFragment : Fragment() {
                 time = if (hour < 10) "0" + hour else hour.toString()
                 min = if (minute < 10) "0" + minute else minute.toString()
                 ampm = am_pm
+            }
+        }
+
+        //버튼 상태 바꾸는 함수
+        fun toggleButtons(){
+            if (binding.stopButton.isEnabled == false){
+                binding.stopButton.setBackgroundResource(R.drawable.round_gray)
+            }
+            else{
+                binding.stopButton.setBackgroundResource(R.drawable.round)
+            }
+
+            if (binding.startButton.isEnabled == false){
+                binding.startButton.setBackgroundResource(R.drawable.round_gray)
+            }
+            else{
+                binding.startButton.setBackgroundResource(R.drawable.round)
+            }
+
+            if (binding.submitLeaveButton.isEnabled == false){
+                binding.submitLeaveButton.setBackgroundResource(R.drawable.round_gray)
+            }
+            else{
+                binding.submitLeaveButton.setBackgroundResource(R.drawable.round)
             }
         }
 
@@ -312,6 +334,8 @@ class ThreeFragment : Fragment() {
             binding.submitLeavePic.isVisible = false
             binding.computer.isVisible = true
 
+            toggleButtons()
+
         }
 
         binding.stopButton.setOnClickListener{
@@ -325,12 +349,19 @@ class ThreeFragment : Fragment() {
 //            Log.d("binding.chronometer.base","${binding.chronometer.base}")
             binding.chronometer.stop()
             binding.stopButton.isEnabled = false
-            binding.startButton.text = "RESUME"
+
+
+//            binding.stopButton.setBackgroundColor(Color.RED)
+
+//            binding.stopButton.SetBackgroundResource(R.drawable.round_red)
+            binding.startButton.text = "계속"
             binding.submitLeaveButton.isEnabled = true
             binding.startButton.isEnabled = true
             binding.stop.isVisible = true
             binding.computer.isVisible = false
             binding.submitLeavePic.isVisible = false
+
+            toggleButtons()
 
         }
 
@@ -450,6 +481,9 @@ class ThreeFragment : Fragment() {
             binding.stopButton.isEnabled = false
             binding.submitLeaveButton.isEnabled = false
             binding.startButton.isEnabled = true
+
+
+            toggleButtons()
 
 
 
