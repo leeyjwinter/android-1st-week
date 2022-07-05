@@ -20,6 +20,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.ch11_jetpack.databinding.FragmentTwoBinding
 import kotlinx.android.synthetic.main.fragment_two.*
 import java.io.File
@@ -86,6 +87,14 @@ class TwoFragment : Fragment() {
             listImages()
         }
 
+
+        binding.refreshLayout.setOnRefreshListener{
+            listImages()
+            binding.refreshLayout.isRefreshing = false
+        }
+
+
+
         return binding.root
     }
 
@@ -107,6 +116,9 @@ class TwoFragment : Fragment() {
             listImages() // image를 보여주는 함수
         }
     }
+
+
+
 
 
 

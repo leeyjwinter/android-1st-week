@@ -178,21 +178,21 @@ class ThreeFragment : Fragment() {
         //버튼 상태 바꾸는 함수
         fun toggleButtons(){
             if (binding.stopButton.isEnabled == false){
-                binding.stopButton.setBackgroundResource(R.drawable.round_red)
+                binding.stopButton.setBackgroundResource(R.drawable.round_gray)
             }
             else{
                 binding.stopButton.setBackgroundResource(R.drawable.round)
             }
 
             if (binding.startButton.isEnabled == false){
-                binding.startButton.setBackgroundResource(R.drawable.round_red)
+                binding.startButton.setBackgroundResource(R.drawable.round_gray)
             }
             else{
                 binding.startButton.setBackgroundResource(R.drawable.round)
             }
 
             if (binding.submitLeaveButton.isEnabled == false){
-                binding.submitLeaveButton.setBackgroundResource(R.drawable.round_red)
+                binding.submitLeaveButton.setBackgroundResource(R.drawable.round_gray)
             }
             else{
                 binding.submitLeaveButton.setBackgroundResource(R.drawable.round)
