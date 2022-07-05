@@ -138,7 +138,7 @@ class TwoFragment : Fragment() {
         //val photoUri = Uri.fromFile(File("/storage/emulated/0/Pictures/1st app"))
 
         val selection = "${MediaStore.MediaColumns.RELATIVE_PATH} LIKE ?"
-        val selectionArgs = arrayOf("Pictures/1stapp%") // Test was my folder name
+        val selectionArgs = arrayOf("Pictures/madTimer%") // Test was my folder name
 
         //val selection = MediaStore.Files.FileColumns.MIME_TYPE + "=?";
         //val selectionArgs = arrayOf(MimeTypeMap.getSingleton().getMimeTypeFromExtension("png"))
@@ -155,9 +155,9 @@ class TwoFragment : Fragment() {
                 cols, selection, selectionArgs, MediaStore.Images.ImageColumns.DATE_ADDED + " DESC")!!
         }
 
-       // if(rs?.moveToNext()!!){ // ?: null checking
-       //     Toast.makeText(requireActivity().applicationContext, rs?.getString(0), Toast.LENGTH_LONG).show()
-       // }
+        // if(rs?.moveToNext()!!){ // ?: null checking
+        //     Toast.makeText(requireActivity().applicationContext, rs?.getString(0), Toast.LENGTH_LONG).show()
+        // }
 
 
 
@@ -239,7 +239,11 @@ class TwoFragment : Fragment() {
             else{
                 //Log.d("없음", "1")
                 var decd = BitmapFactory.decodeFile(path) // decoding이 가장 오래걸림!!
-                decd = Bitmap.createScaledBitmap(decd, 300, 300, false) // resize해서 캐시에 넣기
+                var hh = decd.height
+                var ww = decd.width
+                println(hh)
+                decd = Bitmap.createScaledBitmap(decd, 300, (hh/(ww/300.0)).toInt(), false) // resize해서 캐시에 넣기
+                //decd = Bitmap.createScaledBitmap(decd, 300, 300, false) // resize해서 캐시에 넣기
                 iv.setImageBitmap(decd) // imageview에 집어넣기 (중요)
                 addBitmapToMemoryCache(path, decd) // 캐시에 넣기
             }
@@ -283,5 +287,4 @@ class TwoFragment : Fragment() {
 
 
 }
-
 

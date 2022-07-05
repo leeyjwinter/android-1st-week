@@ -50,6 +50,8 @@ class ThreeFragment : Fragment() {
     var time ="" //출근시
     var min ="" //출근분
     var ampm ="" //출근 AM / PM
+    var hh = -1
+    var mm = -1
 
 
 
@@ -168,31 +170,6 @@ class ThreeFragment : Fragment() {
         _binding = FragmentThreeBinding.inflate(inflater, container, false)
 
 
-        // 출근시간을 가져오는 함수
-        fun OnClickTime() {
-            val timePicker = binding.timePicker
-            //timePicker.hour = 5
-            //timePicker.minute = 30
-
-            timePicker.setOnTimeChangedListener { _, hour, minute -> var hour = hour
-                var am_pm = ""
-                // AM_PM decider logic
-                when {hour == 0 -> { hour += 12
-                    am_pm = "AM"
-                }
-                    hour == 12 -> am_pm = "PM"
-                    hour > 12 -> { hour -= 12
-                        am_pm = "PM"
-                    }
-                    else -> am_pm = "AM"
-                }
-
-                time = if (hour < 10) "0" + hour else hour.toString()
-                min = if (minute < 10) "0" + minute else minute.toString()
-                ampm = am_pm
-            }
-        }
-
         //버튼 상태 바꾸는 함수
         fun toggleButtons(){
             if (binding.stopButton.isEnabled == false){
@@ -222,7 +199,7 @@ class ThreeFragment : Fragment() {
         var now = LocalDate.now()
 
         // base 날짜인 2022-06-20 설정하기
-        val strdate = "2022-06-28"
+        val strdate = "2022-06-29"
         val basedate = LocalDate.parse(strdate, DateTimeFormatter.ISO_DATE) // localdate형식으로 변환
         //Log.d("오늘 날짜", "go"+ ChronoUnit.DAYS.between( basedate , now ))
         //Log.d("날짜", "00000000".repeat(1000))
@@ -238,12 +215,52 @@ class ThreeFragment : Fragment() {
                 //임시로 만든 0625~0630 데이터
                 Log.d("퇴근??", "O")
                 datedb = "112152412141234112153412114512341912333334211111" + "00000000".repeat(994)
+                age = 700
             }
             sharedManager.saveCurrentUser(currentUser)
         }
         val currentUser = sharedManager.getCurrentUser()
 
         var fulldata = currentUser.datedb // 전체 데이터 가지고 있기(String으로)
+
+        if(currentUser.age!=null) {
+            hh = (currentUser.age?.div(100) ?: -1)
+            mm = (currentUser.age?.rem(100) ?: -1)
+        }
+
+        // 출근시간을 가져오는 함수
+        fun OnClickTime() {
+            val timePicker = binding.timePicker
+            if(hh>=0){
+                if(hh>12) timePicker.hour = hh-12
+                else timePicker.hour = hh
+                time = hh.toString()
+                timePicker.minute = mm
+                min = mm.toString()
+            }
+            //timePicker.hour = 5
+            //timePicker.minute = 30
+
+            timePicker.setOnTimeChangedListener { _, hour, minute -> var hour = hour
+                var am_pm = ""
+                // AM_PM decider logic
+                when {hour == 0 -> { hour += 12
+                    am_pm = "AM"
+                }
+                    hour == 12 -> am_pm = "PM"
+                    hour > 12 -> { hour -= 12
+                        am_pm = "PM"
+                    }
+                    else -> am_pm = "AM"
+                }
+
+                time = if (hour < 10) "0" + hour else hour.toString()
+                min = if (minute < 10) "0" + minute else minute.toString()
+                ampm = am_pm
+            }
+        }
+
+
         //Log.d("시간", "time"+currentUser.datedb)
         //Log.d("서브스트링", currentUser.datedb?.substring(idx*8, idx*8+8) ?: "x")
         pauseTime = (currentUser.datedb?.substring(idx*8, idx*8+8)?.toLong() ?: 0) // 받아서 있으면 빼고, 없으면 0
@@ -334,9 +351,11 @@ class ThreeFragment : Fragment() {
                 if(savetimeString.toLong() > fulldata!!.substring(idx*8, idx*8+8).toLong()){
                     datedb = fulldata!!.substring(0, idx*8) + savetimeString + fulldata!!.substring(idx*8+8, 1000*8) // 원하는 위치에 데이터 저장
                     fulldata = datedb
+                    age = hh*100 + mm
                 }
                 else{
                     datedb = fulldata
+                    age = hh*100 + mm
                 }
             }
             sharedManager.saveCurrentUser(currentUser)
@@ -404,6 +423,15 @@ class ThreeFragment : Fragment() {
                     .into(ivImage)
                 ivImage.clipToOutline = true
             }
+            /*
+            else if(themes==4){
+                Glide
+                    .with(this)
+                    .load(R.raw.nint)
+                    .centerCrop()
+                    .into(ivImage)
+                ivImage.clipToOutline = true
+            }*/
         }
 
         fun playsound(){
@@ -423,6 +451,10 @@ class ThreeFragment : Fragment() {
                 playASMR = MediaPlayer.create(requireActivity().applicationContext, R.raw.asmr3)
                 playASMR.start()
             }
+            /*if(themes==4){
+                playASMR = MediaPlayer.create(requireActivity().applicationContext, R.raw.asmr4)
+                playASMR.start()
+            }*/
         }
 
         binding.chronometer.setOnClickListener {
@@ -628,6 +660,22 @@ class ThreeFragment : Fragment() {
             println(time)
             println(min)
             println(ampm)
+
+            if(ampm.equals("AM")){
+                hh = time.toInt()
+                mm = min.toInt()
+            }
+            else{
+                hh = time.toInt() + 12
+                mm = min.toInt()
+            }
+            val currentUser = User().apply {
+                datedb = fulldata
+                age = hh*100 + mm
+            }
+            sharedManager.saveCurrentUser(currentUser)
+
+            Toast.makeText(requireActivity().applicationContext," $ampm $time $min 에 출근하셨습니다",Toast.LENGTH_SHORT).show()
         }
 
 

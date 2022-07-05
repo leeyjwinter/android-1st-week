@@ -11,7 +11,7 @@ class SharedManager(context: Context) {
 
     fun saveCurrentUser(user: User) {
         prefs["datedb"] = user.datedb
-        //prefs["age"] = user.age
+        prefs["age"] = user.age
         //prefs["email"] = user.email
         //prefs["password"] = user.password
         //prefs["isMarried"] = user.isMarried
@@ -20,7 +20,7 @@ class SharedManager(context: Context) {
     fun getCurrentUser(): User {
         return User().apply {
             datedb = prefs["datedb", ""]
-            //age = prefs["age", 0]
+            age = prefs["age", 0]
             //email = prefs["email", ""]
             //password = prefs["password", ""]
             //isMarried = prefs["isMarried", false]
