@@ -86,13 +86,7 @@ class MyAdapter(val datas: MutableList<String>, val numdata:MutableList<String>,
             datas.removeAt(position)
             numdata.removeAt(position)
             genderdata.removeAt(position)
-
-
             notifyDataSetChanged()
-
-
-
-
         }
 
 
@@ -182,7 +176,6 @@ class OneFragment : Fragment(){
             datas.add("$name")
             numdata.add("$number")
             genderdata.add("$gender")
-
         }
 
 
