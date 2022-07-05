@@ -82,7 +82,9 @@
 ### 1. 초기화면과 Drawer
 
            
-<p align="center">  <img src="https://velog.velcdn.com/images/leeyjwinter/post/a6f825e8-9231-4a25-990a-409a8c3c427e/image.png"  width="800px"></p>
+<p align="center">  <img src="https://user-images.githubusercontent.com/86416273/177321005-4f042cb1-e9bc-4c4f-ac51-c047e9a357de.png"  width="800px"></p>
+
+
  
  
 
@@ -102,8 +104,8 @@
 
 ### 2. 탭1 - 연락처
 
+<p align="center">  <img src="https://velog.velcdn.com/images/leeyjwinter/post/4aade709-3567-4815-b131-4b1bdc2a73d2/image.png" width = "1000px"></p>
 
-![](https://velog.velcdn.com/images/leeyjwinter/post/4aade709-3567-4815-b131-4b1bdc2a73d2/image.png)
 
 
 * 성별의 유무, 성별이 있는 경우 남/여 인지에 따라 사용자에게 보여지는 아이콘을 다르게 합니다.
@@ -126,7 +128,9 @@
 ### 탭2 - 갤러리
 
 
-<p align="center">  <img src="https://velog.velcdn.com/images/leeyjwinter/post/62ae233e-845b-4b67-8418-daf33bc0042c/image.png" width = "1000px"></p>
+<p align="center">  <img src="https://user-images.githubusercontent.com/86416273/177320817-58491109-4423-4826-b952-537afb9b828e.png" width = "1000px"></p>
+
+
 
 
 * 스와이프를 하여 탭2로 넘어가면 갤러리 앱에서 연동되어 사진을 볼 수 있습니다. 사진 항목을 터치하여 확대된 사진을 볼 수 있고 좌, 우 버튼을 통하여 다른 사진으로 이동할 수 있습니다. 확대된 사진은 두 손가락으로 추가로 확대하거나 축소할 수 있습니다.
