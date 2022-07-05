@@ -12,9 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/chronometer">
+        app:layout_constraintBottom_toTopOf="@id/chronometer"
+        app:layout_constraintTop_toBottomOf="@+id/showDate">
 
         <Button
             android:id="@+id/commuteTimeButton"
@@ -111,10 +113,10 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:background="@drawable/round"
-            android:backgroundTint="@color/black"
             android:text="시작"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
+
 
         <Button
             android:id="@+id/stopButton"
@@ -122,11 +124,12 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:background="@drawable/round"
-            android:backgroundTint="@color/black"
             android:enabled="false"
             android:text="중지"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
+
+
 
         <Button
             android:id="@+id/submitLeaveButton"
@@ -134,22 +137,16 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:background="@drawable/round"
-            android:backgroundTint="@color/black"
             android:enabled="true"
             android:text="퇴근 및 제출"
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
 
 
+
     </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/testTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="69dp"
-        tools:layout_editor_absoluteY="69dp" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/barChart"
@@ -165,9 +162,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
+        android:layout_marginTop="-25dp"
         android:text="TextView"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="@+id/barChart"
-        app:layout_constraintTop_toTopOf="@+id/commute" />
+        app:layout_constraintTop_toBottomOf="@+id/barChart" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

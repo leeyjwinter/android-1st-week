@@ -61,7 +61,8 @@
             android:layout_height="wrap_content"
             android:hint="바꿀 이름을 입력하시오"
             android:inputType="text"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:enabled="false"/>
 
     </LinearLayout>
 
@@ -91,7 +92,8 @@
             android:layout_height="wrap_content"
             android:hint="바꿀 번호를 입력하시오"
             android:inputType="number"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:enabled="false"/>
 
     </LinearLayout>
 
@@ -122,14 +124,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="남"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:enabled="false"/>
 
             <RadioButton
                 android:id="@+id/FemaleRadio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="여"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:enabled="false"/>
 
         </RadioGroup>
 

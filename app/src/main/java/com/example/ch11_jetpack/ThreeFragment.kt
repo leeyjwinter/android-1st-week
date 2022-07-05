@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.Color.red
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -169,6 +171,30 @@ class ThreeFragment : Fragment() {
             }
         }
 
+        //버튼 상태 바꾸는 함수
+        fun toggleButtons(){
+            if (binding.stopButton.isEnabled == false){
+                binding.stopButton.setBackgroundResource(R.drawable.round_red)
+            }
+            else{
+                binding.stopButton.setBackgroundResource(R.drawable.round)
+            }
+
+            if (binding.startButton.isEnabled == false){
+                binding.startButton.setBackgroundResource(R.drawable.round_red)
+            }
+            else{
+                binding.startButton.setBackgroundResource(R.drawable.round)
+            }
+
+            if (binding.submitLeaveButton.isEnabled == false){
+                binding.submitLeaveButton.setBackgroundResource(R.drawable.round_red)
+            }
+            else{
+                binding.submitLeaveButton.setBackgroundResource(R.drawable.round)
+            }
+        }
+
 
         //오늘 날짜 시간 가져오기
         var now = LocalDate.now()
@@ -315,6 +341,8 @@ class ThreeFragment : Fragment() {
             binding.submitLeavePic.isVisible = false
             binding.computer.isVisible = true
 
+            toggleButtons()
+
         }
 
         binding.stopButton.setOnClickListener{
@@ -328,12 +356,19 @@ class ThreeFragment : Fragment() {
 //            Log.d("binding.chronometer.base","${binding.chronometer.base}")
             binding.chronometer.stop()
             binding.stopButton.isEnabled = false
-            binding.startButton.text = "RESUME"
+
+
+//            binding.stopButton.setBackgroundColor(Color.RED)
+
+//            binding.stopButton.SetBackgroundResource(R.drawable.round_red)
+            binding.startButton.text = "계속"
             binding.submitLeaveButton.isEnabled = true
             binding.startButton.isEnabled = true
             binding.stop.isVisible = true
             binding.computer.isVisible = false
             binding.submitLeavePic.isVisible = false
+
+            toggleButtons()
 
         }
 
@@ -453,6 +488,9 @@ class ThreeFragment : Fragment() {
             binding.stopButton.isEnabled = false
             binding.submitLeaveButton.isEnabled = false
             binding.startButton.isEnabled = true
+
+
+            toggleButtons()
 
 
 
