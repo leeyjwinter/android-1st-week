@@ -18,6 +18,7 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
@@ -34,7 +35,6 @@ import org.json.JSONTokener
 var datas = mutableListOf<String>()
 var numdata = mutableListOf<String>()
 var genderdata = mutableListOf<String>()
-
 
 // 항목 뷰를 가지는 역할
 class MyViewHolder(val binding: ItemRecyclerviewBinding) :
@@ -86,7 +86,13 @@ class MyAdapter(val datas: MutableList<String>, val numdata:MutableList<String>,
             datas.removeAt(position)
             numdata.removeAt(position)
             genderdata.removeAt(position)
+
+
             notifyDataSetChanged()
+
+
+
+
         }
 
 
@@ -160,6 +166,8 @@ class OneFragment : Fragment(){
 //            datas.add("Item $i")
 //
 //        }
+
+
         val assetManager:AssetManager = requireContext().resources.assets
         val inputStream = assetManager.open("phonebook.json")
         val jsonString = inputStream.bufferedReader().use{it.readText()}

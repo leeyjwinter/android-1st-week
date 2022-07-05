@@ -364,6 +364,14 @@ class ThreeFragment : Fragment() {
                     .into(ivImage)
                 ivImage.clipToOutline = true
             }
+            else if(themes==3){
+                Glide
+                    .with(this)
+                    .load(R.raw.rain)
+                    .centerCrop()
+                    .into(ivImage)
+                ivImage.clipToOutline = true
+            }
         }
 
         fun playsound(){
@@ -379,10 +387,14 @@ class ThreeFragment : Fragment() {
                 playASMR = MediaPlayer.create(requireActivity().applicationContext, R.raw.asmr2)
                 playASMR.start()
             }
+            if(themes==3){
+                playASMR = MediaPlayer.create(requireActivity().applicationContext, R.raw.asmr3)
+                playASMR.start()
+            }
         }
 
         binding.chronometer.setOnClickListener {
-            themes = (themes+1)%3
+            themes = (themes+1)%4
             themechange()
             if(soundon==1){
                 playASMR.stop()
@@ -396,14 +408,11 @@ class ThreeFragment : Fragment() {
                 playsound()
                 binding.asmrButton.setBackgroundResource(R.drawable.soundon)
             }
-
             else{
                 playASMR.pause()
                 binding.asmrButton.setBackgroundResource(R.drawable.soundoff)
             }
         }
-
-
 
         binding.startButton.setOnClickListener{
 

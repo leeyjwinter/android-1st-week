@@ -39,6 +39,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+
 //    var tran = supportFragmentManager.beginTransaction()
 
     val CAMERA = arrayOf(Manifest.permission.CAMERA)
