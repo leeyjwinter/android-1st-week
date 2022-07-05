@@ -381,7 +381,7 @@ class ThreeFragment : Fragment() {
             }
         }
 
-        binding.themeButton.setOnClickListener {
+        binding.chronometer.setOnClickListener {
             themes = (themes+1)%3
             themechange()
             if(soundon==1){
@@ -394,11 +394,16 @@ class ThreeFragment : Fragment() {
             soundon = 1-soundon
             if(soundon==1){
                 playsound()
+                binding.asmrButton.setBackgroundResource(R.drawable.soundon)
             }
+
             else{
                 playASMR.pause()
+                binding.asmrButton.setBackgroundResource(R.drawable.soundoff)
             }
         }
+
+
 
         binding.startButton.setOnClickListener{
 

@@ -65,7 +65,8 @@
         android:textSize="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="-16dp" />
+        tools:layout_editor_absoluteX="-16dp"
+        android:clickable="true"/>
 
     <ImageView
         android:id="@+id/computer"
@@ -181,18 +182,14 @@
 
     <Button
         android:id="@+id/asmr_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="sound"
-        tools:layout_editor_absoluteX="327dp"
-        tools:layout_editor_absoluteY="475dp" />
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/soundoff"
+        android:backgroundTint="#D3D3D3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/barChart" />
 
-    <Button
-        android:id="@+id/themeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="theme"
-        app:layout_constraintTop_toBottomOf="@+id/asmr_button"
-        tools:layout_editor_absoluteX="213dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
